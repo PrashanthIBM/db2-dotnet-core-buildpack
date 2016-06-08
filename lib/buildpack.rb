@@ -36,6 +36,7 @@ module AspNetCoreBuildpack
       cache_dir,
       LibunwindInstaller.new(build_dir, shell),
       DotnetInstaller.new(shell),
+      ClidriverInstaller.new(build_dir, shell),
       Dotnet.new(shell),
       Copier.new,
       out)
