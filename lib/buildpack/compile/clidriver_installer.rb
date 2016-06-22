@@ -22,6 +22,7 @@ module AspNetCoreBuildpack
     end
 
     def extract(app_dir, out)
+      
       @shell.env['HOME'] = app_dir
       
       out.print("clidriver installation is going on \n ")
@@ -32,7 +33,7 @@ module AspNetCoreBuildpack
       cmd = "rm -Rvf #{app_dir}/odbc_cli;"
       @shell.exec(cmd, out)
     
-      cmd =  "curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?\" "
+      cmd =  "curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" "
       #cmd = " curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" ; tar zxvf #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz -C #{app_dir}/clidriver &> /dev/null "
       @shell.exec(cmd, out)
      
