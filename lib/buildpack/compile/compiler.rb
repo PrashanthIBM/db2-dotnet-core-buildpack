@@ -71,7 +71,7 @@ module AspNetCoreBuildpack
     def extract_clidriver(out)
       file_handle = File.open("#{build_dir}/requirements.txt", "r")
       line = file_handle.readline
-      if (line.gets == "clidriver")
+      if (line == "clidriver")
         #clidriver_installer.extract(build_dir, out) unless File.exist? File.join(build_dir, 'odbc_cli') 
         clidriver_installer.extract(build_dir, out)
       else
