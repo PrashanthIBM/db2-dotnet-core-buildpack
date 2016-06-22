@@ -32,7 +32,7 @@ module AspNetCoreBuildpack
       cmd = "rm -Rvf #{app_dir}/odbc_cli;"
       @shell.exec(cmd, out)
     
-      cmd =  "curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" "
+      cmd =  "curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?\" "
       #cmd = " curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" ; tar zxvf #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz -C #{app_dir}/clidriver &> /dev/null "
       @shell.exec(cmd, out)
      
@@ -42,8 +42,8 @@ module AspNetCoreBuildpack
       cmd = "ls #{app_dir}; ls #{app_dir}/odbc_cli" 
       @shell.exec(cmd, out)
       
-      cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib/"
-      @shell.exec(cmd, out)
+      #cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib/"
+      #@shell.exec(cmd, out)
       
       #cmd = "cp -Rvf #{app_dir}/libdb2.so.1 #{app_dir}/odbc_cli/clidriver/lib/libdb2.so.1"
       #@shell.exec(cmd, out)
@@ -56,17 +56,17 @@ module AspNetCoreBuildpack
       cmd = "echo 'LD_LIBRARY_PATH' ;echo $LD_LIBRARY_PATH; echo $PATH; "
       @shell.exec(cmd, out)
       
-      cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib" 
-      @shell.exec(cmd, out)
+      #cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib" 
+      #@shell.exec(cmd, out)
       
-      cmd = "/bin/cp -Rvf #{app_dir}/db2dsdriver.cfg #{app_dir}/odbc_cli/clidriver/cfg "
-      @shell.exec(cmd, out)
+      #cmd = "/bin/cp -Rvf #{app_dir}/db2dsdriver.cfg #{app_dir}/odbc_cli/clidriver/cfg "
+      #@shell.exec(cmd, out)
       
        cmd = " rm -rf odbc_cli_v10.5fp6_linuxx64.tar.gz"
        @shell.exec(cmd, out)
      
-      cmd = "db2cli validate -dsn alias1 -connect"
-      @shell.exec(cmd, out)    
+      #cmd = "db2cli validate -dsn alias1 -connect"
+      #@shell.exec(cmd, out)    
       
       #out.print("copying ibm data core driver  \n ")
       #cmd = "/bin/cp -Rvf #{app_dir}/IBM.Data.DB2.Core.dll #{app_dir}/.dnx/packages/IBM.Data.DB2.Core/10.5.5.100/lib/dnxcore50/IBM.Data.DB2.Core.dll"
