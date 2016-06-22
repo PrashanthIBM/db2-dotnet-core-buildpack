@@ -78,7 +78,7 @@ module AspNetCoreBuildpack
         puts("requirements.txt does not contain 'clidriver' keyword and it must be present in the first line\n")
         puts("clidriver is not installed \n")
       end
-      file_handle.Close
+      file_handle.close
     end
 
     def restore_dependencies(out)
