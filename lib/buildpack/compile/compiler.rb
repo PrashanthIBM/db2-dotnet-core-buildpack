@@ -42,8 +42,7 @@ module AspNetCoreBuildpack
       step('Restoring files from buildpack cache', method(:restore_cache))
       step('Extracting libunwind', method(:extract_libunwind))
       step('Installing Dotnet CLI', method(:install_dotnet)) if dotnet_installer.should_install(build_dir)
-      step('Installing clidriver', method(:extract_clidriver))
-      puts "CLIDRIVER installation is done and db2cli validate is working \n"
+      step('Installing Clidriver', method(:extract_clidriver)) if(File.exist? File.join(build_dir, 'requirements.txt'))
       step('Restoring dependencies with Dotnet CLI', method(:restore_dependencies)) if dotnet_installer.should_install(build_dir)
       step('Saving to buildpack cache', method(:save_cache))
       puts "ASP.NET Core buildpack is done creating the droplet\n"
@@ -70,8 +69,16 @@ module AspNetCoreBuildpack
     end
     
     def extract_clidriver(out)
-      #clidriver_installer.extract(build_dir, out) unless File.exist? File.join(build_dir, 'odbc_cli') 
-      clidriver_installer.extract(build_dir, out)
+      file_handle = File.open("#{build_dir}/requirements.txt", "r")
+      line = file_handle.readline
+      if (line.gets == "clidriver")
+        #clidriver_installer.extract(build_dir, out) unless File.exist? File.join(build_dir, 'odbc_cli') 
+        clidriver_installer.extract(build_dir, out)
+      else
+        puts("requirements.txt does not contain 'clidriver' keyword and it must be present in the first line\n")
+        puts("clidriver is not installed \n")
+      end
+      file_handle.Close
     end
 
     def restore_dependencies(out)
