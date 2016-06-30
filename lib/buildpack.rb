@@ -20,6 +20,8 @@ require_relative './buildpack/release/releaser.rb'
 require_relative './buildpack/shell.rb'
 require_relative './buildpack/out.rb'
 require_relative './buildpack/copier.rb'
+require_relative './buildpack/optional_components.rb'
+
 
 module AspNetCoreBuildpack
   def self.detect(build_dir)
@@ -28,6 +30,10 @@ module AspNetCoreBuildpack
 
   def self.compile(build_dir, cache_dir)
     compiler(build_dir, cache_dir).compile
+    environment = ENV.to_hash
+    vcap_services = environment.delete 'VCAP_SERVICES'
+    vcap_services = vcap_services ? YAML.load(vcap_services) : {}
+    install_optional_components(build_dir,shell,vcap_services)
   end
 
   def self.compiler(build_dir, cache_dir)
@@ -36,7 +42,6 @@ module AspNetCoreBuildpack
       cache_dir,
       LibunwindInstaller.new(build_dir, shell),
       DotnetInstaller.new(shell),
-      ClidriverInstaller.new(build_dir, shell),
       Dotnet.new(shell),
       Copier.new,
       out)
