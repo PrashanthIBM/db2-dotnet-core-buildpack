@@ -16,22 +16,21 @@
 
 module AspNetCoreBuildpack
   class Clidriver
-    def initialize(app_dir, shell, out)
+    def initialize(app_dir, shell)
       @shell = shell
       @app_dir = app_dir
-      @out = out
-      extract(app_dir,out)
+      extract(app_dir)
     end
 
-    def extract(app_dir,out)
+    def extract(app_dir)
       
       @shell.env['HOME'] = app_dir
       
-      out.print("clidriver installation is going on \n ")
+      puts("clidriver installation is going on \n ")
       cmd = "touch ~/.bashrc;"
       @shell.exec(cmd, out)
       
-      out.print("remove old clidriver folder \n ")
+      puts("remove old clidriver folder \n ")
       cmd = "rm -Rvf #{app_dir}/odbc_cli;"
       @shell.exec(cmd, out)
     
