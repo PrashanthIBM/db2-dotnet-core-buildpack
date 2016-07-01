@@ -16,9 +16,10 @@
 
 module AspNetCoreBuildpack
   class Clidriver
-    def initialize(app_dir, shell)
+    def initialize(app_dir, shell, out)
       @shell = shell
       @app_dir = app_dir
+      @out = out
       extract(app_dir)
     end
 
@@ -28,21 +29,21 @@ module AspNetCoreBuildpack
       
       puts("clidriver installation is going on \n ")
       cmd = "touch ~/.bashrc;"
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
       
       puts("remove old clidriver folder \n ")
       cmd = "rm -Rvf #{app_dir}/odbc_cli;"
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
     
       cmd =  "curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz \"https://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" "
       #cmd = " curl -X GET -H \"Authorization: Basic b25lY29ubmVjdDpibHVlY29ubmVjdA==\" -o odbc_cli_v10.5fp6_linuxx64.tar.gz \"http://oneconnect.mybluemix.net/ds/drivers/download/odbccli64/linuxamd64/v10.5fp6?Accept-License=yes\" ; tar zxvf #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz -C #{app_dir}/clidriver &> /dev/null "
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
      
       cmd = " tar zxvf #{app_dir}/odbc_cli_v10.5fp6_linuxx64.tar.gz -C #{app_dir}/ &> /dev/null "
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
      
       cmd = "ls #{app_dir}; ls #{app_dir}/odbc_cli" 
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
       
       #cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib/"
       #@shell.exec(cmd, out)
@@ -56,7 +57,7 @@ module AspNetCoreBuildpack
       #@shell.env['DB2NMPCONSOLE'] = "#{app_dir}/db2log.txt" 
      
       cmd = "echo 'LD_LIBRARY_PATH' ;echo $LD_LIBRARY_PATH; echo $PATH; "
-      @shell.exec(cmd, out)
+      @shell.exec(cmd, @out)
       
       #cmd = "ls -lrt #{app_dir}/odbc_cli/clidriver/lib" 
       #@shell.exec(cmd, out)
@@ -65,7 +66,7 @@ module AspNetCoreBuildpack
       #@shell.exec(cmd, out)
       
        cmd = " rm -rf odbc_cli_v10.5fp6_linuxx64.tar.gz"
-       @shell.exec(cmd, out)
+       @shell.exec(cmd, @out)
      
       #cmd = "db2cli validate -dsn alias1 -connect"
       #@shell.exec(cmd, out)    
