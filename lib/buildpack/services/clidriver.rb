@@ -20,10 +20,10 @@ module AspNetCoreBuildpack
       @shell = shell
       @app_dir = app_dir
       @out = out
-      extract(app_dir,)
+      extract(app_dir,out)
     end
 
-    def extract(app_dir)
+    def extract(app_dir,out)
       
       @shell.env['HOME'] = app_dir
       
