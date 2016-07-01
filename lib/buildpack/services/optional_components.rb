@@ -17,8 +17,9 @@
 require_relative 'clidriver.rb'
 
 module AspNetCoreBuildpack
-   class optional_components
+   class OptionalComponents
      @cliinstall=false
+     
      def install_optional_components(build_dir,shell,vcap_services)
         parse_vcap_services(vcap_services)
         if cliinstall
@@ -28,11 +29,12 @@ module AspNetCoreBuildpack
 
      def parse_vcap_services(vcap_services)
        unless vcap_services.nil?
-        vcap_services.each do |service_type, service_data|
-          if 'dashDB'.eql?(service_type)
-            cliinstall = true 
-          end
-        end
+         vcap_services.each do |service_type, service_data|
+           if 'dashDB'.eql?(service_type)
+             cliinstall = true 
+           end
+         end
+       end
       end
    end
-end
+end 
