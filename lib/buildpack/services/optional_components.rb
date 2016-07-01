@@ -26,6 +26,7 @@ module AspNetCoreBuildpack
      
      def install_optional_components(build_dir,shell)
         if @@cliinstall
+          puts("calling cliinstall \n") 
           Clidriver.new(build_dir, shell)
         end
      end
@@ -33,8 +34,10 @@ module AspNetCoreBuildpack
      def parse_vcap_services(vcap_services)
        unless vcap_services.nil?
          vcap_services.each do |service_type, service_data|
+           puts("inside vcap_services parsing, service_type =  #{service_type}")   
            if 'dashDB'.eql?(service_type)
              @@cliinstall = true 
+             puts("service_type is dashDB and set to cliinstall = #{@@cliinstall} \n ")
            end
          end
        end
