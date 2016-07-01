@@ -21,8 +21,7 @@ require_relative './buildpack/shell.rb'
 require_relative './buildpack/out.rb'
 require_relative './buildpack/copier.rb'
 require_relative './buildpack/services/optional_components.rb'
-
-
+require 'yaml'
 
 module AspNetCoreBuildpack
   def self.detect(build_dir)
