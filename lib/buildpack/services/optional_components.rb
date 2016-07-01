@@ -14,24 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require_relative clidriver.rb
+require_relative 'clidriver.rb'
 
 module AspNetCoreBuildpack
 
    class optional_components
-
-     def install_optional_components()
-
-
+     @cliinstall=false
+     def install_optional_components(build_dir,shell,vcap_services)
+        parse_vcap_services(vcap_services)
+        if clidriver == true
+           Clidriver.new(build_dir, shell)
+        end
      end
 
      def parse_vcap_services(vcap_services)
        unless vcap_services.nil?
         vcap_services.each do |service_type, service_data|
           if 'dashDB'.eql?(service_type)
-            ClidriverInstaller.new(build_dir, shell)
+            cliinstall = true 
           end
         end
       end
-     
-     end
+      
+   end
+end
