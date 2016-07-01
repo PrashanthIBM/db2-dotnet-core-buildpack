@@ -33,7 +33,8 @@ module AspNetCoreBuildpack
     environment = ENV.to_hash
     vcap_services = environment.delete 'VCAP_SERVICES'
     vcap_services = vcap_services ? YAML.load(vcap_services) : {}
-    OptionalComponents.install_optional_components(build_dir,shell,vcap_services)
+    puts("vcap_services = #{vcap_services}")
+    OptionalComponents.new(build_dir,shell,vcap_services)
   end
 
   def self.compiler(build_dir, cache_dir)
