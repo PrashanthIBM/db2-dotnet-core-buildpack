@@ -24,7 +24,7 @@ module AspNetCoreBuildpack
         install_optional_components(build_dir, shell)
      end
      
-     def install_optional_components(build_dir, shell, out)
+     def install_optional_components(build_dir, shell)
         if @@cliinstall
           puts("calling cliinstall \n") 
           Clidriver.new(build_dir, shell)
