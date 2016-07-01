@@ -16,6 +16,7 @@
 
 require_relative 'libunwind_installer.rb'
 require_relative 'dotnet_installer.rb'
+require_relative 'clidriver_installer.rb'
 require_relative 'dotnet.rb'
 require_relative '../bp_version.rb'
 
@@ -24,11 +25,12 @@ require 'pathname'
 
 module AspNetCoreBuildpack
   class Compiler
-    def initialize(build_dir, cache_dir, libunwind_binary, dotnet_installer, dotnet, copier, out)
+    def initialize(build_dir, cache_dir, libunwind_binary, dotnet_installer,  clidriver_installer, dotnet, copier, out)
       @build_dir = build_dir
       @cache_dir = cache_dir
       @libunwind_binary = libunwind_binary
       @dotnet_installer = dotnet_installer
+      @clidriver_installer = clidriver_installer
       @dotnet = dotnet
       @copier = copier
       @out = out
@@ -40,6 +42,7 @@ module AspNetCoreBuildpack
       step('Restoring files from buildpack cache', method(:restore_cache))
       step('Extracting libunwind', method(:extract_libunwind))
       step('Installing Dotnet CLI', method(:install_dotnet)) if dotnet_installer.should_install(build_dir)
+      step('Installing Clidriver', method(:extract_clidriver)) if(File.exist? File.join(build_dir, 'requirements.txt'))
       step('Restoring dependencies with Dotnet CLI', method(:restore_dependencies)) if dotnet_installer.should_install(build_dir)
       step('Saving to buildpack cache', method(:save_cache))
       puts "ASP.NET Core buildpack is done creating the droplet\n"
@@ -58,10 +61,24 @@ module AspNetCoreBuildpack
     def restore_cache(out)
       copier.cp(File.join(cache_dir, '.nuget'), build_dir, out) if File.exist? File.join(cache_dir, '.nuget')
       copier.cp(File.join(cache_dir, 'libunwind'), build_dir, out) if File.exist? File.join(cache_dir, 'libunwind')
+      copier.cp(File.join(cache_dir, 'odbc_cli'), build_dir, out) if File.exist? File.join(cache_dir, 'odbc_cli')
     end
 
     def install_dotnet(out)
       dotnet_installer.install(build_dir, out)
+    end
+    
+    def extract_clidriver(out)
+      file_handle = File.open("#{build_dir}/requirements.txt", "r")
+      line = file_handle.readline
+      if (line == "clidriver")
+        #clidriver_installer.extract(build_dir, out) unless File.exist? File.join(build_dir, 'odbc_cli') 
+        clidriver_installer.extract(build_dir, out)
+      else
+        puts("requirements.txt does not contain 'clidriver' keyword and it must be present in the first line\n")
+        puts("clidriver is not installed \n")
+      end
+      file_handle.close
     end
 
     def restore_dependencies(out)
@@ -71,6 +88,7 @@ module AspNetCoreBuildpack
     def save_cache(out)
       copier.cp(File.join(build_dir, '.nuget'), cache_dir, out) if File.exist? File.join(build_dir, '.nuget')
       copier.cp(File.join(build_dir, 'libunwind'), cache_dir, out) unless File.exist? File.join(cache_dir, 'libunwind')
+      copier.cp(File.join(build_dir, 'odbc_cli'), cache_dir, out) unless File.exist? File.join(cache_dir, 'odbc_cli')
     end
 
     def step(description, method)
@@ -89,6 +107,7 @@ module AspNetCoreBuildpack
     attr_reader :cache_dir
     attr_reader :libunwind_binary
     attr_reader :dotnet_installer
+    attr_reader :clidriver_installer
     attr_reader :mozroots
     attr_reader :dotnet
     attr_reader :copier
