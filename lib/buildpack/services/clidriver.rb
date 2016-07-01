@@ -15,7 +15,7 @@
 # limitations under the License.
 
 module AspNetCoreBuildpack
-  class ClidriverInstaller
+  class Clidriver
     def initialize(app_dir, shell)
       @shell = shell
       @app_dir = app_dir
