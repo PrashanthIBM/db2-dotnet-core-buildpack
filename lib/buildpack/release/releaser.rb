@@ -34,7 +34,13 @@ module AspNetCoreBuildpack
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+        if !@@cliinstall
+          puts("in releaser call , write startup script\n")
+          f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
+        else
+          puts("in release call with cliinstall set\n")
+          f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+        end
         f.write 'export PATH=$PATH:$HOME/.dotnet:$HOME;'
       end
     end
