@@ -16,12 +16,14 @@
 
 module AspNetCoreBuildpack
   class Clidriver
-    def initialize(app_dir, shell)
+    def initialize(app_dir, shell, out)
       @shell = shell
       @app_dir = app_dir
+      @out = out
+      extract(app_dir,)
     end
 
-    def extract(app_dir, out)
+    def extract(app_dir)
       
       @shell.env['HOME'] = app_dir
       
