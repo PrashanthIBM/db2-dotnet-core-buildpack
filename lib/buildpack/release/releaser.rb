@@ -15,7 +15,6 @@
 # limitations under the License.
 
 require_relative '../app_dir'
-require_relative '../services/optional_components.rb'
 
 module AspNetCoreBuildpack
   class Releaser
@@ -35,11 +34,11 @@ module AspNetCoreBuildpack
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        if !OptionalComponents.cliinstall
-          puts("in releaser call , write startup script cliinstall = #{OptionalComponents.cliinstall} \n")
+        if !$cliinstall
+          puts("in releaser call , write startup script cliinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
         else
-          puts("in release call with cliinstall set liinstall = #{OptionalComponents.cliinstall} \n")
+          puts("in release call with cliinstall set liinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
         end
         f.write 'export PATH=$PATH:$HOME/.dotnet:$HOME;'
