@@ -35,11 +35,13 @@ module AspNetCoreBuildpack
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
         if !$cliinstall
-          puts("in releaser call , write startup script cliinstall = #{$cliinstall} \n")
+          #puts("in releaser call , write startup script cliinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
+          puts("LD_LIBRARY_PATH = #{$LD_LIBRARY_PATH}")
         else
-          puts("in release call with cliinstall set liinstall = #{$cliinstall} \n")
+          #puts("in release call with cliinstall set liinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+          puts("LD_LIBRARY_PATH = #{$LD_LIBRARY_PATH}")
         end
         f.write 'export PATH=$PATH:$HOME/.dotnet:$HOME;'
       end
