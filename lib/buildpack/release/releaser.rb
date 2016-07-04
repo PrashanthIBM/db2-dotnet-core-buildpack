@@ -15,6 +15,7 @@
 # limitations under the License.
 
 require_relative '../app_dir'
+require_relative '../services/optional_components.rb'
 
 module AspNetCoreBuildpack
   class Releaser
