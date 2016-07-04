@@ -49,7 +49,7 @@ module AspNetCoreBuildpack
   end
 
   def self.release(build_dir)
-    Releaser.new.release(build_dir)
+    Releaser.new.release(build_dir,shell,out)
   end
 
   def self.out
