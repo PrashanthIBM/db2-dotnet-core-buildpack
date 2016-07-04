@@ -39,14 +39,14 @@ module AspNetCoreBuildpack
         if !$cliinstall
           #puts("in releaser call , write startup script cliinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
-          cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
-          @shell.exec(cmd, @out)
+          #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
+          #@shell.exec(cmd, @out)
         else
           #puts("in release call with cliinstall set liinstall = #{$cliinstall} \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
           #puts("LD_LIBRARY_PATH = $LD_LIBRARY_PATH")
-          cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
-          @shell.exec(cmd, @out)
+          #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
+          #@shell.exec(cmd, @out)
         end
         f.write 'export PATH=$PATH:$HOME/.dotnet:$HOME;'
       end
