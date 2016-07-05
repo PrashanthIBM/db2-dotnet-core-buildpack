@@ -69,6 +69,8 @@ module AspNetCoreBuildpack
 
   def self.release(build_dir)
     Releaser.new.release(build_dir, $ibmdb)
+    cmd = "echo 'LD_LIBRARY_PATH' ;echo $LD_LIBRARY_PATH; echo $PATH; "
+    @shell.exec(cmd, @out)
   end
 
   def self.out
