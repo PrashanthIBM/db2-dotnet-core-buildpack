@@ -53,7 +53,7 @@ module AspNetCoreBuildpack
       out)
   end
      
-  def parse_vcap_services(optlCpts)
+  def self.parse_vcap_services(optlCpts)
     unless optlCpts.vcap_services.nil?
       optlCpts.vcap_services.each do |service_type, service_data|
       puts("inside vcap_services parsing, service_type =  #{service_type}")   
