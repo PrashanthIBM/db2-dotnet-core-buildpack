@@ -40,6 +40,7 @@ module AspNetCoreBuildpack
     }
     parse_vcap_services(optlCpts)
     OptionalComponents.new(build_dir, shell, out, optlCpts)
+    @optlCpts = optlCpts
   end
 
   def self.compiler(build_dir, cache_dir)
@@ -66,7 +67,7 @@ module AspNetCoreBuildpack
   end  
   
 
-  def self.release(build_dir,optlCpts)
+  def self.release(build_dir)
     Releaser.new.release(build_dir, optlCpts)
   end
 
@@ -77,4 +78,6 @@ module AspNetCoreBuildpack
   def self.shell
     @shell ||= Shell.new
   end
+  
+  attr_reader :optlCpts
 end
