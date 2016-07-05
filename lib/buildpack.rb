@@ -54,12 +54,12 @@ module AspNetCoreBuildpack
   end
      
   def self.parse_vcap_services(optlCpts)
-    unless optlCpts.vcap_services.nil?
-      optlCpts.vcap_services.each do |service_type, service_data|
+    unless optlCpts[:vcap_services].nil?
+      optlCpts[:vcap_services].each do |service_type, service_data|
       puts("inside vcap_services parsing, service_type =  #{service_type}")   
         if 'dashDB'.eql?(service_type)
-          optlCpts.dashDB = 'true' 
-          puts("service_type is dashDB and set to cliinstall = #{optlCpts.dashDB} \n ")
+          optlCpts[:ibmdb] = 'true' 
+          puts("service_type is dashDB and set to cliinstall = #{optlCpts[:ibmdb]} \n ")
         end
       end
     end
