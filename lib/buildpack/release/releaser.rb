@@ -21,8 +21,8 @@ module AspNetCoreBuildpack
   class Releaser
     def release(build_dir,ibmdb)
       @ibmdb = ibmdb
-      puts("from release file optsdashdb value is ")
-      puts(@ibmdb)
+      #puts("from release file optsdashdb value is ")
+      #puts(@ibmdb)
       app = AppDir.new(build_dir)
       start_cmd = get_start_cmd(app)
 
