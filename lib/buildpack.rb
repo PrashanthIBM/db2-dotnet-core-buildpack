@@ -40,7 +40,7 @@ module AspNetCoreBuildpack
     }
     parse_vcap_services(optlCpts)
     OptionalComponents.new(build_dir, shell, out, optlCpts)
-    $ibmdb = optlCpts[:ibmdb]
+    #$ibmdb = optlCpts[:ibmdb]
   end
 
   def self.compiler(build_dir, cache_dir)
@@ -68,7 +68,8 @@ module AspNetCoreBuildpack
   
 
   def self.release(build_dir)
-    Releaser.new.release(build_dir, $ibmdb)
+    Releaser.new.release(build_dir)
+    #Releaser.new.release(build_dir, $ibmdb)
     #cmd = "echo 'LD_LIBRARY_PATH' ;echo $LD_LIBRARY_PATH; echo $PATH; "
     #@shell.exec(cmd, @out)
   end
