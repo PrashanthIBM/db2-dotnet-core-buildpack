@@ -35,7 +35,7 @@ module AspNetCoreBuildpack
     #vcap_services = vcap_services ? YAML.load(vcap_services) : {}
     #puts("vcap_services = #{vcap_services}")
     optlCpts = {
-      ibmdb:'false'
+      ibmdb: 'false',
       vcap_services: vcap_services ? YAML.load(vcap_services) : {}
     }
     parse_vcap_services(optlCpts)
