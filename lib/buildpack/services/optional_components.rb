@@ -17,11 +17,10 @@
 require_relative 'clidriver.rb'
 
 module AspNetCoreBuildpack
-   
+  $cliinstall=false   
    
    class OptionalComponents
      def initialize(build_dir,shell,out, vcap_services)
-        $cliinstall=false
         parse_vcap_services(vcap_services)
         install_optional_components(build_dir, shell, out)
      end
