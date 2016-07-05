@@ -19,26 +19,29 @@ require_relative '../services/optional_components.rb'
 
 module AspNetCoreBuildpack
   class Releaser
-    def release(build_dir,shell,out)
-      @shell=shell
-      @out=out
+    def release(build_dir, optlCpts)
+      @optlCpts = optlCpts
+      puts("from release file optsdashdb value is ")
+      puts(optlCpts.dashDB)
       app = AppDir.new(build_dir)
       start_cmd = get_start_cmd(app)
 
       fail 'No project could be identified to run' if start_cmd.nil? || start_cmd.empty?
 
       write_startup_script(startup_script_path(build_dir))
+      puts("LD_LIBRARY_PATH =")
+      puts(env['LD_LIBRARY_PATH'])
       generate_yml(start_cmd)
     end
 
     private
 
     def write_startup_script(startup_script)
-      puts("value of cliinistall is #{$cliinstall}\n")
+      
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        if !$cliinstall
+        if optlCpts.dashDB.eql?('true')
           #puts("clidriver lib path is not set \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
@@ -83,5 +86,7 @@ EOT
     def startup_script_path(dir)
       File.join(dir, '.profile.d', 'startup.sh')
     end
+    
+    attr_reader :optlCpts
   end
 end
