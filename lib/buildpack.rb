@@ -66,7 +66,7 @@ module AspNetCoreBuildpack
   end  
   
 
-  def self.release(build_dir)
+  def self.release(build_dir,optlCpts)
     Releaser.new.release(build_dir, optlCpts)
   end
 
