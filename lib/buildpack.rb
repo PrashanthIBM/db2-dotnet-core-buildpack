@@ -32,9 +32,14 @@ module AspNetCoreBuildpack
     compiler(build_dir, cache_dir).compile
     environment = ENV.to_hash
     vcap_services = environment.delete 'VCAP_SERVICES'
-    vcap_services = vcap_services ? YAML.load(vcap_services) : {}
+    #vcap_services = vcap_services ? YAML.load(vcap_services) : {}
     #puts("vcap_services = #{vcap_services}")
-    OptionalComponents.new(build_dir, shell, out, vcap_services)
+    optlCpts = {
+      ibmdb:'false'
+      vcap_services: vcap_services ? YAML.load(vcap_services) : {}
+    }
+    parse_vcap_services(optlCpts)
+    OptionalComponents.new(build_dir, shell, out, optlCpts)
   end
 
   def self.compiler(build_dir, cache_dir)
@@ -47,9 +52,22 @@ module AspNetCoreBuildpack
       Copier.new,
       out)
   end
+     
+  def parse_vcap_services(optlCpts)
+    unless optlCpts.vcap_services.nil?
+      optlCpts.vcap_services.each do |service_type, service_data|
+      puts("inside vcap_services parsing, service_type =  #{service_type}")   
+        if 'dashDB'.eql?(service_type)
+          optlCpts.dashDB = 'true' 
+          puts("service_type is dashDB and set to cliinstall = #{optlCpts.dashDB} \n ")
+        end
+      end
+    end
+  end  
+  
 
   def self.release(build_dir)
-    Releaser.new.release(build_dir,shell,out)
+    Releaser.new.release(build_dir, optlCpts)
   end
 
   def self.out
