@@ -40,7 +40,7 @@ module AspNetCoreBuildpack
     }
     parse_vcap_services(optlCpts)
     OptionalComponents.new(build_dir, shell, out, optlCpts)
-    $optlCpts = optlCpts
+    $ibmdb = optlCpts[:ibmdb]
   end
 
   def self.compiler(build_dir, cache_dir)
@@ -68,7 +68,7 @@ module AspNetCoreBuildpack
   
 
   def self.release(build_dir)
-    Releaser.new.release(build_dir, $optlCpts)
+    Releaser.new.release(build_dir, $ibmdb)
   end
 
   def self.out
