@@ -68,7 +68,7 @@ module AspNetCoreBuildpack
   
 
   def self.release(build_dir)
-    Releaser.new.release(build_dir, optlCpts)
+    Releaser.new.release(build_dir, compile.optlCpts)
   end
 
   def self.out
