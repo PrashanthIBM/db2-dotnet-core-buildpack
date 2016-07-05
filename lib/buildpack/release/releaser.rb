@@ -22,14 +22,14 @@ module AspNetCoreBuildpack
     def release(build_dir,ibmdb)
       @ibmdb = ibmdb
       puts("from release file optsdashdb value is ")
-      puts(ibmdb)
+      puts(@ibmdb)
       app = AppDir.new(build_dir)
       start_cmd = get_start_cmd(app)
 
       fail 'No project could be identified to run' if start_cmd.nil? || start_cmd.empty?
 
       write_startup_script(startup_script_path(build_dir))
-      puts("LD_LIBRARY_PATH =")
+      #puts("LD_LIBRARY_PATH =")
       #puts(env['LD_LIBRARY_PATH'])
       generate_yml(start_cmd)
     end
@@ -41,7 +41,8 @@ module AspNetCoreBuildpack
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        if ibmdb.eql?('true')
+        #f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+        if @ibmdb.eql?('true')
           #puts("clidriver lib path is not set \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
