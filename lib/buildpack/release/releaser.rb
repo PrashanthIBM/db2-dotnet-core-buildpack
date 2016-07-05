@@ -22,7 +22,7 @@ module AspNetCoreBuildpack
     def release(build_dir, optlCpts)
       @optlCpts = optlCpts
       puts("from release file optsdashdb value is ")
-      puts(optlCpts.dashDB)
+      puts(optlCpts[:ibmdb])
       app = AppDir.new(build_dir)
       start_cmd = get_start_cmd(app)
 
@@ -41,7 +41,7 @@ module AspNetCoreBuildpack
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        if optlCpts.dashDB.eql?('true')
+        if optlCpts[:ibmdb].eql?('true')
           #puts("clidriver lib path is not set \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
