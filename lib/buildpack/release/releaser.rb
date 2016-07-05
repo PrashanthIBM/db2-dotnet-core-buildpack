@@ -19,8 +19,9 @@ require_relative '../services/optional_components.rb'
 
 module AspNetCoreBuildpack
   class Releaser
-    def release(build_dir,ibmdb)
-      @ibmdb = ibmdb
+    #def release(build_dir,ibmdb)
+    def release(build_dir)
+      #@ibmdb = ibmdb
       #puts("from release file optsdashdb value is ")
       #puts(@ibmdb)
       app = AppDir.new(build_dir)
@@ -41,19 +42,19 @@ module AspNetCoreBuildpack
       FileUtils.mkdir_p(File.dirname(startup_script))
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
-        #f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
-        if @ibmdb.eql?('true')
+        f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+        #if @ibmdb.eql?('true')
           #puts("clidriver lib path is not set \n")
-          f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
+          #f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
           #@shell.exec(cmd, @out)
-        else
+        #else
           #puts("clidriver path is set \n")
-          f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
+          #f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
           #puts("LD_LIBRARY_PATH = $LD_LIBRARY_PATH")
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
           #@shell.exec(cmd, @out)
-        end
+        #end
         f.write 'export PATH=$PATH:$HOME/.dotnet:$HOME;'
       end
     end
@@ -88,6 +89,6 @@ EOT
       File.join(dir, '.profile.d', 'startup.sh')
     end
     
-    attr_reader :ibmdb
+    #attr_reader :ibmdb
   end
 end
