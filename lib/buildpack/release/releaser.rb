@@ -30,7 +30,7 @@ module AspNetCoreBuildpack
 
       write_startup_script(startup_script_path(build_dir))
       puts("LD_LIBRARY_PATH =")
-      puts(env['LD_LIBRARY_PATH'])
+      #puts(env['LD_LIBRARY_PATH'])
       generate_yml(start_cmd)
     end
 
@@ -42,12 +42,12 @@ module AspNetCoreBuildpack
       File.open(startup_script, 'w') do |f|
         f.write 'export HOME=/app;'
         if ibmdb.eql?('true')
-          #puts("clidriver lib path is not set \n")
+          puts("clidriver lib path is not set \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib;'
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
           #@shell.exec(cmd, @out)
         else
-          #puts("clidriver path is set \n")
+          puts("clidriver path is set \n")
           f.write 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/libunwind/lib:$HOME/odbc_cli/clidriver/lib;'
           #puts("LD_LIBRARY_PATH = $LD_LIBRARY_PATH")
           #cmd = "echo 'LD_LIBRARY_PATH = ';echo $LD_LIBRARY_PATH;"
