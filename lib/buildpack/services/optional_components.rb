@@ -26,7 +26,7 @@ module AspNetCoreBuildpack
      end
      
      def install_optional_components(build_dir, shell, out, optlCpts)
-        if optlCpts.dashDB.eql?('true')
+        if optlCpts[:ibmdb].eql?('true')
           puts("calling cliinstall \n") 
           Clidriver.new(build_dir, shell, out)
         end
